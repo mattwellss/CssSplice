@@ -1,0 +1,48 @@
+input:
+  -
+    type: file
+    uri:  './input/styles.css'
+  -
+    type: file
+    uri:  './input/widgets.css'
+
+output:
+  -
+    name: layout.css
+    allowed_properties:
+      - height
+      - min-height
+      - max-height
+      - min-width
+      - max-width
+      - width
+      - margin
+      - margin-top
+      - margin-right
+      - margin-bottom
+      - margin-left
+      - padding
+      - padding-top
+      - padding-right
+      - padding-bottom
+      - padding-left
+      - display
+      - position
+      - float
+      - clear
+      - visibility
+      - top
+      - right
+      - bottom
+      - left
+      - z-index
+      - overflow
+      - clip
+    # combine_selectors: Yes
+  -
+    name: appearance.css
+    allowed_properties:
+      - color
+      - font
+      - font-family
+      - background

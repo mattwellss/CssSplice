@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+
+require 'css_parser'
+require 'yaml'
+
+require "#{File.dirname(__FILE__)}/src/splicer.rb"
+
+include CssParser
+include CssSplicer
+
+begin
+  config = File.open('./config.yaml') { |file| YAML.load(file) }
+rescue
+  puts "You need a config.yaml file!"
+  exit
+end
+
+# handle each input file
+config['input'].each do |input_config|
+  p = CssSplicer::Splicer.input_parsers.push(CssParser::Parser.new).last
+  if input_config['type'] == 'file'
+    p.load_file!(input_config['uri'], Dir.getwd)
+  else
+    p.load_uri!(input_config['uri'])
+  end
+end
+
+# create each output
+config['output'].each do |output_config|
+  p = CssSplicer::Splicer.new(output_config['name'], output_config['allowed_properties'])
+  CssSplicer::Splicer.input_parsers.each do |css|
+    p.add_valid_rules!(css)
+  end
+  File.open("./output/#{p.name}", 'w') do |file|
+    file.write(p.to_s)
+    puts "wrote #{p.name}"
+  end
+end
