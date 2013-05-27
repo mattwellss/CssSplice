@@ -35,7 +35,6 @@ class SpliceTest < Test::Unit::TestCase
     @splicer.add_allowed_properties!(['color'])
     @splicer.add_valid_rules!(@parser)
 
-    # trim whitespace when testing
     assert_equal complex, @splicer.to_s
   end
 
@@ -50,6 +49,7 @@ class SpliceTest < Test::Unit::TestCase
     @splicer.add_allowed_properties!(['color'])
     @splicer.add_valid_rules!(@parser)
 
+    # trim whitespace when testing
     assert_equal split.gsub(/\s/, ''), @splicer.to_s.gsub(/\s/, '')
   end
 
