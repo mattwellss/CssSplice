@@ -3,11 +3,14 @@ module CssSplicer
     attr_reader :name
     @@input_parsers = []
 
-    def initialize(name, allowed=nil)
+    def initialize(name, allowed=[])
       @name = name
-      @allowed_properties = allowed
       @declarations = {}
+      @allowed_properties = []
+      add_allowed_properties!(allowed)
     end
+
+
 
     def self.input_parsers
       @@input_parsers
@@ -15,6 +18,10 @@ module CssSplicer
 
     def self.input_parsers=(item)
       @@input_parsers.push(item)
+    end
+    
+    def add_allowed_properties!(allowed)
+      @allowed_properties.concat(allowed).uniq!
     end
 
     def add_valid_rules!(cssDoc)
@@ -37,7 +44,7 @@ module CssSplicer
     def to_s
       r = []
       @declarations.each do |selector, decl|
-        r.push("#{selector} {\n\t#{decl.join(";\n\t")} }")
+        r.push("#{selector} { #{decl.join("; ")}; }")
       end
       return r.join("\n")
     end
