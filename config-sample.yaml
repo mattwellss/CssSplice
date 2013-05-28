@@ -38,7 +38,9 @@ output:
       - z-index
       - overflow
       - clip
-    # combine_selectors: Yes
+    combine_selectors: No
+    combine_rules: Yes
+
   -
     name: appearance.css
     allowed_properties:
@@ -46,3 +48,5 @@ output:
       - font
       - font-family
       - background
+    combine_selectors: No
+    combine_rules: No

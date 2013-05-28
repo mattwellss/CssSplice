@@ -16,18 +16,24 @@ rescue
 end
 
 # handle each input file
-config['input'].each do |input_config|
+config['input'].each do |in_conf|
   p = CssSplicer::Splicer.input_parsers.push(CssParser::Parser.new).last
-  if input_config['type'] == 'file'
-    p.load_file!(input_config['uri'], Dir.getwd)
+  if in_conf['type'] == 'file'
+    p.load_file!(in_conf['uri'], Dir.getwd)
   else
-    p.load_uri!(input_config['uri'])
+    p.load_uri!(in_conf['uri'])
   end
 end
 
 # create each output
-config['output'].each do |output_config|
-  p = CssSplicer::Splicer.new(output_config['name'], output_config['allowed_properties'])
+config['output'].each do |out_conf|
+  p = CssSplicer::Splicer.new(out_conf['name'])
+
+  p.add_allowed_properties!(out_conf['allowed_properties'])
+
+  p.combine_rules = out_conf['combine_rules']
+  p.combine_selectors = out_conf['combine_selectors']
+
   CssSplicer::Splicer.input_parsers.each do |css|
     p.add_valid_rules!(css)
   end
